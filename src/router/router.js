@@ -10,10 +10,20 @@ import Chat from "../components/Chat";
 export const routes = [
 
     {path: '/', component: Welcome, name: 'Welcome'},
-    {path: '/Chat', component: Chat, name: 'Chat'},
-    // {path: '/navbar', component: Navbar, name: 'Navbar'},
-    // {path: '/add_smoothies', component: AddSmoothie, name: 'AddSmoothie'},
-    // {path: '/edit-smoothie/:smoothie_slug', component: EditSmoothie, name: 'EditSmoothie'},
+    {
+     path: '/chat',
+     component: Chat,
+     name: 'Chat',
+     props:true,
+     beforeEnter:(to , from, next)=>{
+         if (to.params.name) {
+             next()
+         }else{
+             next({ name: 'Welcome'})
+         }
+     }
+    },
+   
 
 ];
 
