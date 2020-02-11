@@ -3,13 +3,13 @@
         <h2 class="center teal-text">Ninja Chat</h2>
        <div class="card">
             <div class="card-content">
-            <ul class="message">
-                <li>
-                    <span class="teal-text">Name</span>
-                    <span class="grey-text text-darken-3">message</span>
-                    <span class="grey-text time">time</span>
+            <ul class="message" v-chat-scroll>
+                <li v-for="message in messages" :key="message.id">
+                    <span class="teal-text">{{message.name}}</span>
+                    <span class="grey-text text-darken-3">{{message.content}}</span>
+                    <span  class="grey-text time">{{message.timestamp}}</span>
                 </li>
-                
+
             </ul>
         </div>
         <div class="card-action">
@@ -21,6 +21,9 @@
 
 <script>
 import NewMessage from '@/components/NewMessage'
+import db from '@/firebase/init'
+// eslint-disable-next-line no-unused-vars
+import moment from 'moment'
     export default {
         name: "Chat",
         props: ['name'],
@@ -29,8 +32,27 @@ import NewMessage from '@/components/NewMessage'
         },
         data (){
             return {
-
+                messages:[]
             }
+        },
+        created(){
+            let ref = db.collection('message').orderBy('timestamp')
+            ref.onSnapshot(snapshot => {
+                // console.log(snapshot.docChanges())
+                snapshot.docChanges().forEach(change => {
+                    console.log(change.doc)
+                  if(change.type == 'added'){
+                      let doc = change.doc
+                      this.messages.push({
+                          id: doc.id,
+                          name: doc.data().name,
+                          content: doc.data().content,
+                          timestamp: moment(doc.data().timestamp).format('lll')
+                      })
+                  }
+                })
+
+            })
         }
     }
 </script>
@@ -45,6 +67,19 @@ margin-bottom: 40px;
 }
 .chat .time{
     display: block;
-    font-size: 1.2em;
+    font-size: 0.8em;
 }
+    .message{
+        max-height: 300px;
+        overflow: auto;
+    }
+    .message::-webkit-scrollbar{
+        width: 3px;
+    }
+    .message::-webkit-scrollbar-track{
+        background: #ddd;
+    }
+    .message::-webkit-scrollbar-thumb{
+        background: #aaa;
+    }
 </style>
