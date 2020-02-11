@@ -3,11 +3,19 @@
         <h2 class="center teal-text">Ninja Chat</h2>
        <div class="card">
             <div class="card-content">
+<<<<<<< HEAD
             <ul class="message" v-chat-scroll>
                 <li v-for="message in messages" :key="message.id">
                     <span class="teal-text">{{message.name}}</span>
                     <span class="grey-text text-darken-3">{{message.content}}</span>
                     <span  class="grey-text time">{{message.timestamp}}</span>
+=======
+            <ul class="message">
+                <li v-for="message in messages" :key="message.id">
+                    <span class="teal-text">{{message.name}}</span>
+                    <span class="grey-text text-darken-3">{{message.content}}</span>
+                    <span class="grey-text time">{{message.timestamp}}</span>
+>>>>>>> f28fb8f160d4227a97ddb4e69408f2505aceb6a0
                 </li>
 
             </ul>
@@ -22,8 +30,11 @@
 <script>
 import NewMessage from '@/components/NewMessage'
 import db from '@/firebase/init'
+<<<<<<< HEAD
 // eslint-disable-next-line no-unused-vars
 import moment from 'moment'
+=======
+>>>>>>> f28fb8f160d4227a97ddb4e69408f2505aceb6a0
     export default {
         name: "Chat",
         props: ['name'],
@@ -40,18 +51,29 @@ import moment from 'moment'
             ref.onSnapshot(snapshot => {
                 // console.log(snapshot.docChanges())
                 snapshot.docChanges().forEach(change => {
+<<<<<<< HEAD
                     console.log(change.doc)
+=======
+>>>>>>> f28fb8f160d4227a97ddb4e69408f2505aceb6a0
                   if(change.type == 'added'){
                       let doc = change.doc
                       this.messages.push({
                           id: doc.id,
                           name: doc.data().name,
                           content: doc.data().content,
+<<<<<<< HEAD
                           timestamp: moment(doc.data().timestamp).format('lll')
                       })
                   }
                 })
 
+=======
+                          timestamp: doc.data().timestamp
+                      })
+                  }  
+                })
+                
+>>>>>>> f28fb8f160d4227a97ddb4e69408f2505aceb6a0
             })
         }
     }

@@ -26,7 +26,11 @@ export default {
         db.collection('message').add({
           content: this.newMessage,
           name: this.name,
+<<<<<<< HEAD
           timestamp: Date.now()
+=======
+          timestamps: Date.now()
+>>>>>>> f28fb8f160d4227a97ddb4e69408f2505aceb6a0
         }).catch(err =>{
           console.log(err)
         })
